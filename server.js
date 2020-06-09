@@ -56,4 +56,17 @@ server.delete("/cars/:id", (req, res) => {
     })
 })
 
+server.put("/cars/:id", (req,res) => {
+    const changes=req.body;
+    const id=req.params.id;
+    db('CarInventoryData').where({id:id}).update(changes)
+        .then(updated => {
+            res.status(201).json({RecordsUpdated:updated})
+        })
+        .catch(error => {
+            console.log(".put error", error);
+            res.status(500).json({message: error})
+        })
+})
+
 module.exports = server;
